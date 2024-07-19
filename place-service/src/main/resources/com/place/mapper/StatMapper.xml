@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.place.mapper.StatMapper">
+    <insert id="update">
+        insert into summary_table (month_year, region, order_type, order_count)
+        select date_format(order_time, '%Y%m') as month_year,
+               location                        as region,
+               type                            as order_type,
+               COUNT(*)                        AS order_count
+        from order
+        group by date_format(order_time, '%Y%m'), location, type
+        ON DUPLICATE KEY UPDATE  order_count = VALUES(order_count);
+    </insert>
+
+    <select id="getStat" resultType="com.place.domain.po.Stat">
+        select * from summary_table
+        <where>
+            <if test="start != null">
+                month_year >= #{start}
+            </if>
+            <if test="end != null">
+                and month_year &lt;= #{end}
+            </if>
+            <if test="region != null and region != ''">
+                and region = #{region}
+            </if>
+        </where>
+        order by month_year asc
+    </select>
+</mapper>
