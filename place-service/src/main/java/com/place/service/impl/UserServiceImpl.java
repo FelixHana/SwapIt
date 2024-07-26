@@ -115,7 +115,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             userLoginVO.setUsername(user.getUsername());
             userLoginVO.setToken(jwt);
             userLoginVO.setRole(user.getUserRole());
-
             return userLoginVO;
         } catch (UnknownAccountException e) {
             // 账户错误

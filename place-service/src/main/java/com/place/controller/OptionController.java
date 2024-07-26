@@ -1,6 +1,5 @@
 package com.place.controller;
 
-import com.place.common.domain.response.ResultResponse;
 import com.place.domain.po.TypeOption;
 import com.place.service.OptionService;
 import io.swagger.annotations.ApiOperation;

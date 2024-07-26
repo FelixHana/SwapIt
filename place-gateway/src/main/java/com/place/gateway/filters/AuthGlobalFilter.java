@@ -1,8 +1,10 @@
 package com.place.gateway.filters;
 
 
+import com.place.common.domain.enums.CommonCodeEnum;
+import com.place.common.exception.CommonException;
 import com.place.common.exception.HttpException;
-import com.place.gateway.config.AuthProperties;
+import com.place.gateway.configs.AuthProperties;
 import com.place.gateway.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -12,7 +14,6 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
@@ -20,6 +21,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+/**
+ * @author ZCY-
+ */
 @Component
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AuthProperties.class)
@@ -41,16 +45,10 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             token = headers.get(0);
         }
         else {
-            token = null;
+            throw new CommonException(CommonCodeEnum.AUTH_ERROR, "JWT is null or empty");
         }
         // 4. 校验解析
-        Long userId;
-        try {
-            userId = JwtUtil.parseUserId(token);
-        } catch (UnauthorizedException e) {
-            // 设置未授权 401 状态
-            throw new HttpException(HttpStatus.UNAUTHORIZED);
-        }
+        Long userId = JwtUtil.parseUserId(token);
         // 5. 传递用户信息
         String userInfo = userId.toString();
         // System.out.println("userId = " + userId);

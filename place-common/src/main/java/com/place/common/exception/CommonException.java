@@ -22,8 +22,4 @@ public class CommonException extends HttpException {
         return commonCodeEnum.getEnumName();
     }
 
-    @Override
-    public String getMessage() {
-        return commonCodeEnum.getMessage();
-    }
 }

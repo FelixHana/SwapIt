@@ -3,16 +3,20 @@ package com.place.utils;
 
 
 
+import com.place.common.domain.enums.CommonCodeEnum;
+import com.place.common.exception.CommonException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecureDigestAlgorithm;
 import io.jsonwebtoken.security.SignatureException;
-import org.apache.shiro.authz.UnauthorizedException;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * @author ZCY-
+ */
 public class JwtUtil {
 
     // 签名
@@ -48,23 +52,23 @@ public class JwtUtil {
     }
 
     public static Long parseUserId(String token) {
-        return Long.getLong(parseClaim(token).getPayload().get("userId").toString());
+        return Long.valueOf(parseClaim(token).getPayload().get("userId").toString());
     }
 
     // 验证token是否有效
-    public static Jws<Claims> parseClaim(String token){
+    public static Jws<Claims> parseClaim(String token) {
         try {
             return Jwts.parser().verifyWith(KEY).build().parseSignedClaims(token);
         } catch (ExpiredJwtException e) {
-            throw new UnauthorizedException("JWT has expired", e);
+            throw new CommonException(CommonCodeEnum.AUTH_ERROR, "JWT has expired");
         } catch (UnsupportedJwtException e) {
-            throw new UnauthorizedException("JWT is unsupported", e);
+            throw new CommonException(CommonCodeEnum.AUTH_ERROR, "JWT is unsupported");
         } catch (MalformedJwtException e) {
-            throw new UnauthorizedException("JWT is malformed", e);
+            throw new CommonException(CommonCodeEnum.AUTH_ERROR, "JWT is malformed");
         } catch (SignatureException e) {
-            throw new UnauthorizedException("JWT signature does not match", e);
+            throw new CommonException(CommonCodeEnum.AUTH_ERROR, "JWT signature does not match");
         } catch (IllegalArgumentException e) {
-            throw new UnauthorizedException("JWT is null or empty", e);
+            throw new CommonException(CommonCodeEnum.AUTH_ERROR, "JWT is null or empty");
         }
     }
 

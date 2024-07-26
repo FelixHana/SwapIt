@@ -1,6 +1,6 @@
 package com.place.controller;
 
-import com.place.common.domain.response.ResultResponse;
+
 import com.place.domain.po.Stat;
 import com.place.service.StatService;
 import lombok.extern.slf4j.Slf4j;

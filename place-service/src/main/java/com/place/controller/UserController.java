@@ -1,10 +1,9 @@
 package com.place.controller;
 
-import cn.hutool.core.bean.BeanUtil;
+
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.place.common.domain.PageDTO;
-import com.place.common.domain.response.ResultResponse;
 import com.place.common.utils.BeanUtils;
 import com.place.common.utils.UserContext;
 import com.place.domain.dto.LoginFormDTO;
@@ -14,20 +13,19 @@ import com.place.domain.query.UserQuery;
 import com.place.domain.dto.UserDTO;
 import com.place.domain.vo.UserLoginVO;
 import com.place.service.UserService;
-import com.place.utils.salt.SaltUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
+/**
+ * @author ZCY-
+ */
 @Api(tags = "用户管理相关接口")
 @RestController
 @RequestMapping("/user")
@@ -45,7 +43,7 @@ public class UserController {
                 .eq(StrUtil.isNotBlank(query.getPhone()), User::getPhone, query.getPhone())
                 .between(query.getCreateTimeBegin() != null, User::getCreateTime, query.getCreateTimeBegin(), query.getCreateTimeEnd())
                 .page(query.toMpPage("update_time", false));
-
+        //log.info(UserContext.getUser().toString());
         return PageDTO.of(result, UserDTO.class);
     }
 
@@ -60,13 +58,13 @@ public class UserController {
     // 登录
     @ApiOperation("用户登录接口")
     @PostMapping("/login")
-    public UserLoginVO login(@RequestBody LoginFormDTO loginFormDTO) {
+    public UserLoginVO login(@Validated @RequestBody LoginFormDTO loginFormDTO) {
         return userService.login(loginFormDTO);
 
     }
     @ApiOperation("用户注册接口")
     @PostMapping("/reg")
-    public String register(@RequestBody RegFormDTO regFormDTO) {
+    public String register(@Validated @RequestBody RegFormDTO regFormDTO) {
         userService.register(regFormDTO);
         return regFormDTO.getUsername();
     }

@@ -1,4 +1,4 @@
-package com.place.gateway.config;
+package com.place.gateway.configs;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

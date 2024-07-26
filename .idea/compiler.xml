@@ -7,17 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="place-jwt" />
+        <module name="place-auth" />
+        <module name="place-gateway" />
         <module name="place-service" />
         <module name="place-common" />
-        <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="gateway" options="-parameters" />
+      <module name="place-auth" options="-parameters" />
       <module name="place-common" options="-parameters" />
+      <module name="place-gateway" options="-parameters" />
+      <module name="place-jwt" options="-parameters" />
       <module name="place-service" options="-parameters" />
     </option>
   </component>

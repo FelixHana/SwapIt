@@ -1,6 +1,5 @@
 package com.place.controller;
 
-import com.place.common.domain.response.ResultResponse;
 import com.place.domain.po.PageBean;
 import com.place.domain.dto.ResponseDTO;
 import com.place.service.RequestService;

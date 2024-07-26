@@ -23,10 +23,12 @@ public class StatServiceImpl implements StatService {
         statMapper.update();
         DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("yyyyMM");
         String startMonth = null, endMonth = null;
-        if (start != null)
+        if (start != null) {
             startMonth = start.format(customFormatter);
-        if (end != null)
+        }
+        if (end != null) {
             endMonth = end.format(customFormatter);
+        }
         return statMapper.getStat(startMonth, endMonth, region);
     }
 }

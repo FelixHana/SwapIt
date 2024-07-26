@@ -1,6 +1,6 @@
 package com.place.controller;
 
-import com.place.common.domain.response.ResultResponse;
+
 import com.place.domain.dto.RequestDTO;
 import com.place.service.RequestService;
 import com.place.service.UserService;

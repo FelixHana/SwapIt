@@ -8,6 +8,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author ZCY-
+ */
 public class UserInfoInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -17,6 +20,7 @@ public class UserInfoInterceptor implements HandlerInterceptor {
         if (StrUtil.isNotBlank(userInfo)) {
             UserContext.setUser(Long.valueOf(userInfo));
         }
+
         // 3. 放行
         return true;
     }

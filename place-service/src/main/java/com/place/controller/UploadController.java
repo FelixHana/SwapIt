@@ -1,6 +1,6 @@
 package com.place.controller;
 
-import com.place.common.domain.response.ResultResponse;
+
 import com.place.utils.AliOSSUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

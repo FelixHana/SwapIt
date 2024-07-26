@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author ZCY-
+ */
 @Data
 @NoArgsConstructor
 public class ResultResponse<T> implements Serializable {

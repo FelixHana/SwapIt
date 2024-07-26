@@ -36,6 +36,12 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.place.controller
+pe:
+  jwt:
+    header: Authorization
+    expire: 604800
+    secret: secretKey!secretKey!secretKey!secretKey!
+    iss: zcy
 #hm:
 #  jwt:
 #    location: classpath:hmall.jks

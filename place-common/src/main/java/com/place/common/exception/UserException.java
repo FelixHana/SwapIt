@@ -5,7 +5,7 @@ import com.place.common.domain.enums.UserCodeEnum;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-
+@Getter
 public class UserException extends HttpException{
     private final UserCodeEnum userCodeEnum;
     public UserException(UserCodeEnum anEnum) {
@@ -22,12 +22,5 @@ public class UserException extends HttpException{
     public String getCode() {
         return userCodeEnum.getEnumName();
     }
-
-    @Override
-    public String getMessage() {
-        return userCodeEnum.getMessage();
-    }
-
-
 
 }

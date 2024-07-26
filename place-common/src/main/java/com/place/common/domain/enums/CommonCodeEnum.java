@@ -9,7 +9,7 @@ public enum CommonCodeEnum implements BaseCodeEnum {
     ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST, 1001, "Illegal Argument"),
     METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, 1002, "Method Argument Not Valid"),
     BIND_ERROR(HttpStatus.BAD_REQUEST, 1003, "Bind Error"),
-
+    AUTH_ERROR(HttpStatus.UNAUTHORIZED, 1004, "Auth Error"),
 
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 9999, "Internal Error")
     ;
@@ -22,6 +22,7 @@ public enum CommonCodeEnum implements BaseCodeEnum {
         this.id = id;
         this.message = message;
     }
+    @Override
     public String getEnumName() {
         return this.name();
     }

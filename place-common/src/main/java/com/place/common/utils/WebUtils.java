@@ -118,7 +118,7 @@ public class WebUtils {
      * @return
      */
     public static String getUri(String url){
-        if(StringUtils.isEmpty(url)) {
+        if(StrUtil.isEmpty(url)) {
             return null;
         }
 
