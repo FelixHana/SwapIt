@@ -1,0 +1,60 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      config:
+        enabled: true
+        server-addr: localhost:8848
+        namespace: dev
+        group: campus-swap
+        file-extension: yaml
+      discovery:
+        server-addr: localhost:8848
+        namespace: dev
+        group: campus-swap
+
+    gateway:
+      routes:
+        - id: product-api
+          uri: lb://product-api
+          predicates:
+            - Path=/product/**
+          filters:
+            - StripPrefix=1
+      discovery:
+        locator:
+          enabled: true
+
+  config:
+    import: nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+
+knife4j:
+  gateway:
+    enabled: true
+    strategy: discover
+    discover:
+      enabled: true
+      excluded-services: ${spring.application.name}
+      version: openapi3
+
+pe:
+  auth:
+    excludePaths:
+      # TODO 方便测试已经全部放通
+      - /product/**
+      # doc 路径放通
+      - /v3/api-docs/**
+  jwt:
+    header: Authorization
+    expire: 604800
+    secret: secretKey!secretKey!secretKey!secretKey!
+logging:
+  level:
+    # com.github.xiaoymin.knife4j: debug
+    com.cswap: debug
+    org.springframework.cloud.loadbalancer: info
+

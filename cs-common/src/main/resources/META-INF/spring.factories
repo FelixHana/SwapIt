@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.cswap.common.config.MyBatisConfig,\
+  com.cswap.common.config.JsonConfig,\
+  com.cswap.common.config.MvcConfig

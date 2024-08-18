@@ -7,22 +7,35 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="place-jwt" />
-        <module name="place-auth" />
-        <module name="place-gateway" />
-        <module name="place-service" />
-        <module name="place-common" />
+      </profile>
+      <profile name="Annotation profile for CampusSwap" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../../../dev/apache-maven-3.9.5/maven_repo/org/lombok/lombok/1.18.24/lombok-1.18.24.jar" />
+        </processorPath>
+        <module name="auth-service" />
+        <module name="cs-gateway" />
+        <module name="product-api" />
+        <module name="product-service" />
+        <module name="cs-common" />
+        <module name="product-model" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="11">
+      <module name="cs-service" target="11" />
+      <module name="order" target="11" />
+      <module name="place-jwt" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="place-auth" options="-parameters" />
-      <module name="place-common" options="-parameters" />
-      <module name="place-gateway" options="-parameters" />
-      <module name="place-jwt" options="-parameters" />
-      <module name="place-service" options="-parameters" />
+      <module name="auth-service" options="" />
+      <module name="cs-common" options="" />
+      <module name="cs-gateway" options="" />
+      <module name="cs-service" options="" />
+      <module name="place-jwt" options="" />
     </option>
   </component>
 </project>

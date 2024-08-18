@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cswap.mapper.OrderMapper">
+
+    <insert id="create">
+        insert into order(request_id, user_request, user_response, order_time, request_fee, response_fee, response_id, location, type)
+        values (#{requestId}, #{userRequest}, #{userResponse}, #{orderTime}, #{requestFee}, #{responseFee}, #{responseId}, #{location}, #{type})
+    </insert>
+</mapper>

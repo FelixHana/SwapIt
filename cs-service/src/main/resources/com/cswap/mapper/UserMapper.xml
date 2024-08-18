@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cswap.mapper.UserMapper">
+    <update id="editProfile">
+        update user
+        <set>
+            <if test="userProfile != null and userProfile != ''">
+                user_profile = #{userProfile},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+        </set>
+        where user_name like concat('%',#{userName},'%')
+    </update>
+    <update id="editPass">
+        update user
+        <set>
+            <if test="password != null and password != ''">
+                user_salt = #{salt},
+                user_password = #{password},
+            </if>
+        </set>
+        <where>
+            user_name = #{username}
+        </where>
+    </update>
+
+
+    <!-- 条件分页查询 -->
+    <select id="page" resultType="com.cswap.domain.po.User">
+        select * from user
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%',#{name},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="begin != null and end != null">
+                and create_time between #{begin} and date_add(#{end}, interval 1 day)
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    <!--    批量删除用户-->
+    <select id="delete">
+        delete from user where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <select id="getUserByUserName" resultType="com.cswap.domain.po.User">
+        select * from user
+        <where>
+            user_name = #{userName}
+        </where>
+    </select>
+    <select id="getUserRoleByUserName" resultType="java.lang.Integer">
+        select user_role from user
+        <where>
+            user_name = #{userName}
+        </where>
+    </select>
+    <select id="isExist" resultType="java.lang.Boolean">
+        select exists(
+        select * from user
+           where username = #{userName}
+        )
+    </select>
+    <insert id="add">
+        insert into user(username, user_password, user_role, name, id_type, id_number, create_time, update_time,
+                         user_salt, location)
+        values (#{username}, #{userPassword}, #{userRole}, #{name}, #{idType}, #{idNumber}, #{createTime},
+                #{updateTime}, #{userSalt}, #{location})
+    </insert>
+
+    <select id="getLocationByUsername" resultType="java.lang.String">
+        select location from user
+        <where>
+            user_name = #{username}
+        </where>
+    </select>
+    <select id="getUsernameById" resultType="java.lang.String">
+        select username from user
+        <where>
+            id = #{id}
+        </where>
+    </select>
+    <select id="getUser" resultType="com.cswap.domain.po.User">
+        select * from user
+        <where>
+            id = #{id}
+        </where>
+    </select>
+</mapper>
