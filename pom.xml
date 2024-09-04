@@ -14,6 +14,7 @@
         <module>campus-swap-auth</module>
         <module>campus-swap-product</module>
         <module>campus-swap-order</module>
+        <module>campus-swap-captcha</module>
 
 
     </modules>

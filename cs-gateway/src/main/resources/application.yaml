@@ -36,6 +36,12 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
+        - id: captcha-service
+          uri: lb://captcha-service
+          predicates:
+            - Path=/captcha/**
+          filters:
+            - StripPrefix=1
       discovery:
         locator:
           enabled: true
@@ -62,9 +68,10 @@ cs:
     excludePaths:
       # TODO 方便测试已经全部放通
       - /product/**
-#      - /order/**
+      - /order/**
       - /review/**
       - /auth/**
+      - /captcha/**
       # doc 路径放通
       - /v3/api-docs/**
       - /doc.html

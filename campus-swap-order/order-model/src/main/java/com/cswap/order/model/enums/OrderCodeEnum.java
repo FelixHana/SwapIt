@@ -21,7 +21,7 @@ public enum OrderCodeEnum implements BaseCodeEnum {
 
     ORDER_DELETE_ERROR_PRODUCT(HttpStatus.OK, 20021, "订单删除失败-商品错误"),
     ORDER_DELETE_ERROR_STATUS(HttpStatus.OK, 20022, "订单删除失败-订单已发货"),
-    ORDER_DELETE_ERROR_DB(HttpStatus.OK, 20023, "订单创建失败-数据库错误"),
+    ORDER_DELETE_ERROR_DB(HttpStatus.OK, 20023, "订单删除失败-数据库错误"),
 
     ORDER_UPDATE_ERROR_STATUS(HttpStatus.OK, 20032, "订单更新失败-不合法状态"),
     ORDER_UPDATE_ERROR_DB(HttpStatus.OK, 20033, "订单更新失败-数据库错误"),

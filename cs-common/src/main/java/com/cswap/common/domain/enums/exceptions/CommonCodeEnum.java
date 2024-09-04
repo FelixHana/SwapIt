@@ -14,9 +14,8 @@ public enum CommonCodeEnum implements BaseCodeEnum {
     BIND_ERROR(HttpStatus.BAD_REQUEST, 1003, "Bind Error"),
     AUTH_ERROR(HttpStatus.UNAUTHORIZED, 1004, "Auth Error"),
     INTERNAL_API(HttpStatus.FORBIDDEN, 1005, "Internal Api"),
+    CAPTCHA_ERROR(HttpStatus.FORBIDDEN, 1006, "Captcha Error"),
 
-    DATABASE_INSERT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 2001, "Database insert error"),
-    DATABASE_UPDATE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 2002, "Database update error"),
 
 
 

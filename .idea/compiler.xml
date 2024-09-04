@@ -20,6 +20,7 @@
         <module name="authorization-server" />
         <module name="product-api" />
         <module name="product-service" />
+        <module name="campus-swap-captcha" />
         <module name="order-service" />
         <module name="order-api" />
         <module name="cs-common" />
@@ -30,6 +31,7 @@
     <bytecodeTargetLevel target="11">
       <module name="cs-service" target="11" />
       <module name="place-jwt" target="11" />
+      <module name="xuecheng-plus-checkcode" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

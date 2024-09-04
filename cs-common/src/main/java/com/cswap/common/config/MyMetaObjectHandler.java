@@ -1,14 +1,18 @@
 package com.cswap.common.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Slf4j
 @Component
+@ConditionalOnClass({MybatisPlusInterceptor.class, BaseMapper.class})
 public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override

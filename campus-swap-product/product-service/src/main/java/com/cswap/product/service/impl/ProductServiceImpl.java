@@ -46,7 +46,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         BeanUtils.copyProperties(editProductDTO, product);
 
         if (productMapper.updateById(product) <= 0) {
-            throw new CommonException(CommonCodeEnum.DATABASE_UPDATE_ERROR);
+            throw new ProductException(ProductCodeEnum.PRODUCT_UPDATE_ERROR_DB);
         }
         return getProduct(product.getProductId());
     }
@@ -60,7 +60,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         product.setSellerId(tmpUserId);
         product.setPublishTime(LocalDateTime.now());
         product.setProductStatus(ProductStatus.AVAILABLE);
-        save(product);
+        boolean saved = save(product);
+        if (!saved) {
+            throw new ProductException(ProductCodeEnum.PRODUCT_CREATE_ERROR_DB);
+        }
         return product.getProductId();
     }
 
@@ -100,7 +103,11 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         if (product == null) {
             throw new ProductException(ProductCodeEnum.PRODUCT_NOT_EXIST);
         }
-        return removeById(productId);
+        boolean removed = removeById(productId);
+        if (!removed) {
+            throw new ProductException(ProductCodeEnum.PRODUCT_DELETE_ERROR_DB);
+        }
+        return true;
     }
 
     @Override

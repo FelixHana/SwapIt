@@ -48,7 +48,13 @@ public class ResourceServerConfig {
         // 开启全局验证
         http.authorizeExchange()
                 //需要认证
-                .pathMatchers("/logout", "/webjars/**", "/doc.html", "/v3/api-docs/**","/auth/v3/api-docs", "/order/v3/api-docs","/swagger-resources/**").permitAll()
+                // TODO permit doc paths
+                .pathMatchers("/logout","/auth/oauth2/token", "/webjars/**",
+                        "/doc.html", "/v3/api-docs/**",
+                        "/auth/v3/api-docs", "/order/v3/api-docs",
+                        "/product/v3/api-docs", "/captcha/v3/api-docs",
+                        "/captcha/pic",
+                        "/swagger-resources/**").permitAll()
                 .anyExchange().access(resourceServerManager);
 
         http.securityContextRepository(NoOpServerSecurityContextRepository.getInstance());

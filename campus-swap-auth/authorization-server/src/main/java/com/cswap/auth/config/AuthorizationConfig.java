@@ -2,6 +2,7 @@ package com.cswap.auth.config;
 
 
 import com.cswap.auth.domain.po.SysBaseUser;
+import com.cswap.auth.filter.CaptchaFilter;
 import com.cswap.auth.oauth2.extension.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import com.cswap.auth.oauth2.extension.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import com.cswap.auth.oauth2.service.CustomOAuth2UserService;
@@ -55,10 +56,7 @@ import org.springframework.security.oauth2.server.authorization.web.authenticati
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2RefreshTokenAuthenticationConverter;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.ForwardAuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.*;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -97,6 +95,7 @@ public class AuthorizationConfig {
     private final SysBaseUserServiceImpl sysBaseUserService;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -123,6 +122,7 @@ public class AuthorizationConfig {
 
         // 配置默认的设置，忽略认证端点的csrf校验
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+        http.exceptionHandling(Customizer.withDefaults());
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 // 开启OpenID Connect 1.0协议相关端点
                 .oidc(Customizer.withDefaults())
@@ -134,11 +134,12 @@ public class AuthorizationConfig {
                                 new OAuth2ResourceOwnerPasswordAuthenticationConverter()
                         ))
                 ));
-
+        // 添加验证码校验过滤器
+        http.addFilterBefore(new CaptchaFilter("/oauth2/token"), UsernamePasswordAuthenticationFilter.class);
         // 设置自定义用户确认授权页
         // .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
         DefaultSecurityFilterChain securityFilterChain = http
-                .cors().disable()
+                .cors().configurationSource(corsConfigurationSource()).and()
                 .requestMatcher(http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).getEndpointsMatcher())
                 // 当未登录时访问认证端点时重定向至login页面
                 .exceptionHandling((exceptions) -> exceptions
@@ -167,14 +168,16 @@ public class AuthorizationConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // 放行静态资源
-                .antMatchers("/v3/api-docs/**", "/assets/**", "/webjars/**", "/oauth2/**", "/login/**").permitAll()
+                .antMatchers("/v3/api-docs/**", "/assets/**", "/webjars/**", "/oauth2/**", "/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()
-                .cors().disable()
+                //.cors().disable()
                 .csrf().disable()
                 .oauth2Login().userInfoEndpoint().userService(customOAuth2UserService)
-                .and().successHandler(customAuthenticationSuccessHandler);
+                .and().successHandler(customAuthenticationSuccessHandler)
+                .and().exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
+                //.failureHandler(new SimpleUrlAuthenticationFailureHandler("/login?error"));
 
         /*// 添加BearerTokenAuthenticationFilter，将认证服务当做一个资源服务，解析请求头中的token
         http.oauth2ResourceServer((resourceServer) -> resourceServer
