@@ -1,0 +1,4 @@
+cswap:
+  db:
+    host: localhost
+    pw: 123456

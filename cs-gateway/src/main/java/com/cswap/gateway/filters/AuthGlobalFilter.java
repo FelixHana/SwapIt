@@ -1,7 +1,7 @@
 package com.cswap.gateway.filters;
 
 
-import com.cswap.common.domain.enums.CommonCodeEnum;
+import com.cswap.common.domain.enums.exceptions.CommonCodeEnum;
 import com.cswap.common.exception.CommonException;
 import com.cswap.gateway.configs.AuthProperties;
 import com.cswap.gateway.utils.JwtUtil;
@@ -36,19 +36,21 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         if(isExclude(request.getPath().toString())) {
             return chain.filter(exchange);
         }
-        // 3. 获取 token
-        List<String> headers = request.getHeaders().get("authorization");
-        String token;
-        if (headers != null && !headers.isEmpty()) {
-            token = headers.get(0);
-        }
-        else {
-            throw new CommonException(CommonCodeEnum.AUTH_ERROR, "JWT is null or empty");
-        }
-        // 4. 校验解析
-        Long userId = JwtUtil.parseUserId(token);
-        // 5. 传递用户信息
-        String userInfo = userId.toString();
+        // 用户认证在 security 做，无需带token
+        // TODO 携带token解析的用户信息
+        long userId = 101L;
+//        // 3. 获取 token
+//        List<String> headers = request.getHeaders().get("111");
+//        String token;
+//        if (headers != null && !headers.isEmpty()) {
+//            token = headers.get(0);
+//        }
+//        else {
+//            throw new CommonException(CommonCodeEnum.AUTH_ERROR, "JWT is null or empty");
+//        }
+//         //5. 传递用户信息
+
+        String userInfo = Long.toString(userId);
         // System.out.println("userId = " + userId);
         ServerWebExchange serverWebExchange = exchange.mutate()
                 .request(builder -> builder.header("user-info", userInfo))

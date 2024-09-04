@@ -3,7 +3,7 @@ package com.cswap.gateway.utils;
 
 
 
-import com.cswap.common.domain.enums.CommonCodeEnum;
+import com.cswap.common.domain.enums.exceptions.CommonCodeEnum;
 import com.cswap.common.exception.CommonException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

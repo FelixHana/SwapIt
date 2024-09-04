@@ -15,23 +15,26 @@
         <processorPath useClasspath="false">
           <entry name="$PROJECT_DIR$/../../../../dev/apache-maven-3.9.5/maven_repo/org/lombok/lombok/1.18.24/lombok-1.18.24.jar" />
         </processorPath>
-        <module name="auth-service" />
+        <module name="authorization-user" />
         <module name="cs-gateway" />
+        <module name="authorization-server" />
         <module name="product-api" />
         <module name="product-service" />
+        <module name="order-service" />
+        <module name="order-api" />
         <module name="cs-common" />
+        <module name="order-model" />
         <module name="product-model" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11">
       <module name="cs-service" target="11" />
-      <module name="order" target="11" />
       <module name="place-jwt" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="auth-service" options="" />
+      <module name="campus-swap-auth" options="" />
       <module name="cs-common" options="" />
       <module name="cs-gateway" options="" />
       <module name="cs-service" options="" />

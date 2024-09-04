@@ -1,0 +1,40 @@
+spring:
+  application:
+    name:
+  datasource:
+    url: jdbc:mysql://localhost:3306/cs_orders?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: dev
+        group: campus-swap
+      config:
+        import-check:
+          enabled: false
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    db-config:
+      update-strategy: not_null
+      id-type: auto
+      logic-delete-field: deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+  mapper-locations: classpath:/com/cswap/product/mapper/*.xml
+logging:
+  level:
+    com.cswap: debug
+  pattern:
+    dateformat: HH:mm:ss:SSS
+feign:
+  okhttp:
+    enabled: true
+  client:
+    config:
+      default:
+        logger-level: basic

@@ -1,0 +1,85 @@
+server:
+  port: 63081
+spring:
+  application:
+    name: product-api
+  mvc:
+    throw-exception-if-no-handler-found: true
+    static-path-pattern: /statics/**
+  cloud:
+    nacos:
+      config:
+        enabled: true
+        server-addr: localhost:8848
+        namespace: dev
+        group: campus-swap
+        file-extension: yaml
+      discovery:
+        server-addr: localhost:8848
+        namespace: dev
+        group: campus-swap
+  config:
+    import: nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://${cswap.db.host}:3306/cs_products?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ${cswap.db.pw}
+
+
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+
+  global-config:
+    db-config:
+      update-strategy: not_null
+      id-type: auto
+      logic-delete-field: deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+  mapper-locations: classpath:/com/cswap/product/mapper/*.xml
+
+logging:
+  level:
+    com.cswap: debug
+  pattern:
+    dateformat: HH:mm:ss:SSS
+  file:
+    path: "logs/${spring.application.name}"
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    enabled: true
+    groups:
+      enabled: true
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.cswap.product.api
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    swagger-model-name: 实体类列表
+
+
+cswap:
+  jwt:
+    header: Authorization
+    expire: 604800
+    secret: secretKey!secretKey!secretKey!secretKey!
+    iss: zcy
+
+
+feign:
+  okhttp:
+    enabled: true
+# keytool -genkeypair -alias hmall -keyalg RSA -keypass hmall123 -keystore hmall.jks -storepass hmall123

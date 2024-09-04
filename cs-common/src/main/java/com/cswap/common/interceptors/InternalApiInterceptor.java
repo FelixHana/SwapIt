@@ -1,14 +1,13 @@
 package com.cswap.common.interceptors;
 
 import com.cswap.common.annotation.InternalApi;
-import com.cswap.common.domain.enums.CommonCodeEnum;
+import com.cswap.common.domain.enums.exceptions.CommonCodeEnum;
 import com.cswap.common.exception.CommonException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 
 /**
  * @author ZCY-

@@ -24,15 +24,14 @@ public class GatewayApplication {
         Environment env = application.getEnvironment();
         log.info("\n----------------------------------------------------------\n\t" +
                         "Application '{}' is running! Access URLs:\n\t" +
-                        "Local: \t\thttp://localhost:{}\n\t" +
+                        "Local: \t\thttp://127.0.0.1:{}\n\t" +
                         "External: \thttp://{}:{}\n\t" +
-                        "Doc: \thttp://{}:{}/doc.html\n" +
+                        "Doc: \thttp://127.0.0.1:{}/doc.html\n" +
                         "----------------------------------------------------------",
                 env.getProperty("spring.application.name"),
                 env.getProperty("server.port"),
                 InetAddress.getLocalHost().getHostAddress(),
                 env.getProperty("server.port"),
-                InetAddress.getLocalHost().getHostAddress(),
                 env.getProperty("server.port"));
     }
 

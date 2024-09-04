@@ -1,6 +1,6 @@
 package com.cswap.common.exception;
 
-import com.cswap.common.domain.enums.CommonCodeEnum;
+import com.cswap.common.domain.enums.exceptions.CommonCodeEnum;
 import lombok.Getter;
 
 /**

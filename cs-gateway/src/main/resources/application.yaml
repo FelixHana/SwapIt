@@ -16,7 +16,6 @@ spring:
         server-addr: localhost:8848
         namespace: dev
         group: campus-swap
-
     gateway:
       routes:
         - id: product-api
@@ -25,12 +24,29 @@ spring:
             - Path=/product/**
           filters:
             - StripPrefix=1
+        - id: order-api
+          uri: lb://order-api
+          predicates:
+            - Path=/order/**
+          filters:
+            - StripPrefix=1
+        - id: auth-api
+          uri: lb://auth-api
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
       discovery:
         locator:
           enabled: true
-
   config:
     import: nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://127.0.0.1:9011
+
 
 knife4j:
   gateway:
@@ -41,13 +57,18 @@ knife4j:
       excluded-services: ${spring.application.name}
       version: openapi3
 
-pe:
+cs:
   auth:
     excludePaths:
       # TODO 方便测试已经全部放通
       - /product/**
+#      - /order/**
+      - /review/**
+      - /auth/**
       # doc 路径放通
       - /v3/api-docs/**
+      - /doc.html
+      - /swagger-resources/**
   jwt:
     header: Authorization
     expire: 604800
@@ -56,5 +77,7 @@ logging:
   level:
     # com.github.xiaoymin.knife4j: debug
     com.cswap: debug
-    org.springframework.cloud.loadbalancer: info
+    org.springframework.security: trace
+    org.springframework.web: trace
+    org.springframework.cloud.gateway: debug
 

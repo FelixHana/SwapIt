@@ -1,7 +1,7 @@
 package com.cswap.common.domain.response;
 
 import cn.hutool.core.util.StrUtil;
-import com.cswap.common.domain.enums.BaseCodeEnum;
+import com.cswap.common.domain.enums.exceptions.BaseCodeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;

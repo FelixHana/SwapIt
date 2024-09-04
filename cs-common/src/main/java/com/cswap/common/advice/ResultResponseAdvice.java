@@ -28,6 +28,11 @@ public class ResultResponseAdvice implements ResponseBodyAdvice<Object> {
         if (body == null || body instanceof ResultResponse) {
             return body;
         }
+
+        // feign 发起的内部请求
+        if (!request.getHeaders().containsKey("from-gateway")) {
+            return body;
+        }
         final ResultResponse<Object> result = ResultResponse.ok(body);
         if (returnType.getGenericParameterType().equals(String.class)) {
             ObjectMapper objectMapper = new ObjectMapper();

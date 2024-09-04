@@ -1,31 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/auth-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/auth-service/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/auth-service/src/test/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-auth/authorization-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-auth/authorization-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-auth/authorization-user/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-auth/authorization-user/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-auth/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-auth/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-auth/src/test/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-order/order-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-order/order-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-order/order-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-order/order-model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-order/order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-order/order-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-order/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/product-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/product-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/product-api/src/test/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/product-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/product-model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/product-model/src/test/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/product-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/product-service/src/test/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/campus-swap-product/src/test/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cs-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cs-common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cs-common/src/test/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cs-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cs-gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cs-gateway/src/test/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/order/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/order/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/place-jwt/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/place-jwt/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/product-api/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/product-api/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/product-api/src/test/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/product-model/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/product-model/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/product-model/src/test/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/product-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/product-service/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/product-service/src/test/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/product/src/test/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/products-service/products-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/products-service/products-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/products-service/products-model/src/main/java" charset="UTF-8" />

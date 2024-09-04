@@ -1,11 +1,10 @@
 package com.cswap.common.advice;
 
 
-import com.cswap.common.domain.enums.CommonCodeEnum;
+import com.cswap.common.domain.enums.exceptions.CommonCodeEnum;
 import com.cswap.common.domain.response.ResultResponse;
 import com.cswap.common.exception.CommonException;
 import com.cswap.common.exception.HttpException;
-import com.cswap.common.exception.UserException;
 import com.cswap.common.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -101,13 +100,7 @@ public class ExceptionAdvice {
     public ResponseEntity<ResultResponse<Void>> handleUserException(HttpException e) {
         return new ResponseEntity<>(ResultResponse.failed(e.getHttpStatus(), e.getMessage()), e.getHttpStatus());
     }
-    /**
-     * 用户服务异常
-     */
-    @ExceptionHandler(UserException.class)
-    public ResponseEntity<ResultResponse<Void>> handleUserException(UserException e) {
-        return new ResponseEntity<>(ResultResponse.failed(e.getUserCodeEnum()), e.getHttpStatus());
-    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResultResponse<Void>> handleRuntimeException(Exception e) {
