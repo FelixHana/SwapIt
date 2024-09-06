@@ -33,6 +33,17 @@ spring:
             client-id: Ov23lio1pL4TnK5aL6mr
             client-secret: 1aec231de25cb3249df1eebd060928a5e88a7884
             redirect-uri: http://127.0.0.1:9011/login/oauth2/code/github
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    database: 1
+    lettuce:
+      pool:
+        max-active: 20
+        max-idle: 10
+        min-idle: 0
+    timeout: 10000
 
 logging:
   level:

@@ -1,10 +1,20 @@
 package com.cswap.auth.controller;
 
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import cn.hutool.jwt.JWTPayload;
+import com.alibaba.nacos.api.model.v2.Result;
+import com.cswap.auth.exception.AuthCodeEnum;
+import com.cswap.auth.exception.AuthException;
+import com.cswap.common.constant.SecurityConstants;
+import com.cswap.common.utils.JwtUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
@@ -14,33 +24,47 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.security.interfaces.RSAPublicKey;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ZCY-
  */
+@Tag(name = "授权接口")
 @RestController
 @RequiredArgsConstructor
 public class AuthorizationController {
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final RegisteredClientRepository registeredClientRepository;
 
     private final OAuth2AuthorizationConsentService authorizationConsentService;
 
-//    @ResponseBody
-//    @GetMapping("/getCapcha")
 
-    @GetMapping("/login-success")
-    public String login(){
-        return "success";
+    @DeleteMapping("/logout")
+    public boolean logout(HttpServletRequest request) {
+        String bearerToken = request.getHeader(SecurityConstants.AUTHORIZATION_HEADER);
+        JWTPayload jwtPayload = JwtUtil.parsePayload(bearerToken);
+        if (jwtPayload == null) {
+            throw new AuthException(AuthCodeEnum.JWT_INVALID);
+        }
+        String jti = jwtPayload.getClaimsJson().getStr("jti"); // JWT唯一标识
+        long exp = jwtPayload.getClaimsJson().getLong("exp"); // JWT过期时间戳(单位:秒)
+
+        long currentTimeSeconds = System.currentTimeMillis() / 1000;
+
+        if (exp < currentTimeSeconds) { // token已过期
+            throw new AuthException(AuthCodeEnum.JWT_EXPIRED);
+        }
+        redisTemplate.opsForValue().set(SecurityConstants.TOKEN_BLACKLIST_PREFIX + jti, null, (exp - currentTimeSeconds), TimeUnit.SECONDS);
+        return true;
     }
+
 
 
     @GetMapping(value = "/oauth2/consent")

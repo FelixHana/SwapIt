@@ -21,6 +21,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // 获取第三方得到的 OAuthUser
+
         OAuth2User oAuth2User = super.loadUser(userRequest);
         // 转换为项目中的 SysOAuth2ThirdAccount
         SysOAuth2ThirdAccount oAuth2ThirdAccount = userConverterContext.convert(userRequest, oAuth2User);

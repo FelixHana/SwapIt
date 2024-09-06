@@ -15,6 +15,7 @@ public enum CommonCodeEnum implements BaseCodeEnum {
     AUTH_ERROR(HttpStatus.UNAUTHORIZED, 1004, "Auth Error"),
     INTERNAL_API(HttpStatus.FORBIDDEN, 1005, "Internal Api"),
     CAPTCHA_ERROR(HttpStatus.FORBIDDEN, 1006, "Captcha Error"),
+    JWT_PARSE_ERROR(HttpStatus.FORBIDDEN, 1007, "Jwt Parse Error"),
 
 
 

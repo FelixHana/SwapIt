@@ -36,6 +36,7 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Host, 127.0.0.1:8080
         - id: captcha-service
           uri: lb://captcha-service
           predicates:
@@ -52,6 +53,17 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://127.0.0.1:9011
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    database: 1
+    lettuce:
+      pool:
+        max-active: 20
+        max-idle: 10
+        min-idle: 0
+    timeout: 10000
 
 
 knife4j:
@@ -67,19 +79,12 @@ cs:
   auth:
     excludePaths:
       # TODO 方便测试已经全部放通
-      - /product/**
-      - /order/**
-      - /review/**
       - /auth/**
       - /captcha/**
       # doc 路径放通
       - /v3/api-docs/**
       - /doc.html
       - /swagger-resources/**
-  jwt:
-    header: Authorization
-    expire: 604800
-    secret: secretKey!secretKey!secretKey!secretKey!
 logging:
   level:
     # com.github.xiaoymin.knife4j: debug

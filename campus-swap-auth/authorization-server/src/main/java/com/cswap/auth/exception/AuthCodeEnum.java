@@ -13,6 +13,8 @@ public enum AuthCodeEnum implements BaseCodeEnum {
     CAPTCHA_ERROR(HttpStatus.UNAUTHORIZED, 90000, "Captcha Error"),
     CAPTCHA_PARAM_ERROR(HttpStatus.UNAUTHORIZED, 90001, "Captcha Param Error"),
 
+    JWT_EXPIRED(HttpStatus.OK, 90002, "Jwt Expired"),
+    JWT_INVALID(HttpStatus.OK, 90003, "Jwt Invalid"),
 
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 99999, "Internal Error")
     ;

@@ -48,7 +48,7 @@ public class ResourceServerConfig {
         // 开启全局验证
         http.authorizeExchange()
                 //需要认证
-                // TODO permit doc paths
+                //TODO permit doc paths
                 .pathMatchers("/logout","/auth/oauth2/token", "/webjars/**",
                         "/doc.html", "/v3/api-docs/**",
                         "/auth/v3/api-docs", "/order/v3/api-docs",

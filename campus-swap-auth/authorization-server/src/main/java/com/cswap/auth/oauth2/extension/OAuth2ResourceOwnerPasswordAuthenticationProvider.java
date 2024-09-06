@@ -213,7 +213,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
         return supports;
     }
 
-    private Authentication getUsernamePasswordAuthentication(OAuth2ResourceOwnerPasswordAuthenticationToken resouceOwnerPasswordAuthentication) {
+    private Authentication getUsernamePasswordAuthentication(OAuth2ResourceOwnerPasswordAuthenticationToken resouceOwnerPasswordAuthentication) throws AuthenticationException {
 
         Map<String, Object> additionalParameters = resouceOwnerPasswordAuthentication.getAdditionalParameters();
 

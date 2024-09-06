@@ -29,7 +29,7 @@ public class ResultResponseAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
 
-        // feign 发起的内部请求
+        // 内部请求
         if (!request.getHeaders().containsKey("from-gateway")) {
             return body;
         }

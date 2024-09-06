@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.reactive.function.client.WebClientCustomizer;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -41,7 +42,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (!(authentication.getPrincipal() instanceof DefaultOAuth2User)) {
             return;
         }
-        String username = authentication.getName();
+        String registrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
+        String account = registrationId + "_" +authentication.getName();
         DefaultOAuth2User user = (DefaultOAuth2User) authentication.getPrincipal();
         String genPassword = user.getAttribute("genPassword");
 
@@ -52,7 +54,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("grant_type", "password");
-        requestBody.add("username", username);
+        requestBody.add("username", account);
         requestBody.add("password", genPassword);
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);

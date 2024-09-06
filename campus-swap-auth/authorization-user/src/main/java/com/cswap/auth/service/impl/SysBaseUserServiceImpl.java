@@ -42,8 +42,6 @@ public class SysBaseUserServiceImpl extends ServiceImpl<SysBaseUserMapper, SysBa
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 在Security中“username”代表了用户登录时输入的账号，在重写该方法时它可以代表以下内容：账号、手机号、邮箱、姓名等
-        // username 在数据库中不一定非要是一样的列，可以是手机号、邮箱，也可以都是，最主要的目的就是根据输入的内容获取到对应的用户信息
         // 通过传入的账号信息查询对应的用户信息
         SysBaseUser user = lambdaQuery()
                 //.eq(SysBaseUser::getAccountSource, "local")
@@ -51,7 +49,7 @@ public class SysBaseUserServiceImpl extends ServiceImpl<SysBaseUserMapper, SysBa
 
                 .one();
         if (user == null) {
-            throw new UserException(UserCodeEnum.USERNAME_NOT_EXIST);
+            throw new UsernameNotFoundException(username + " not found");
         }
         // 用户-角色表查询对应的角色
         List<SysUserRole> userRoles = sysUserRoleMapper.selectList(Wrappers.lambdaQuery(SysUserRole.class).eq(SysUserRole::getUserId, user.getId()));

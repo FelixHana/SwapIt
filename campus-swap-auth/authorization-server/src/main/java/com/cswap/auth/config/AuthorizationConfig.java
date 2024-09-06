@@ -7,6 +7,7 @@ import com.cswap.auth.oauth2.extension.OAuth2ResourceOwnerPasswordAuthentication
 import com.cswap.auth.oauth2.extension.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import com.cswap.auth.oauth2.service.CustomOAuth2UserService;
 import com.cswap.auth.service.impl.SysBaseUserServiceImpl;
+import com.cswap.common.constant.SecurityConstants;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -29,6 +30,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -73,6 +75,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * 认证配置
@@ -96,6 +99,8 @@ public class AuthorizationConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -122,7 +127,6 @@ public class AuthorizationConfig {
 
         // 配置默认的设置，忽略认证端点的csrf校验
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        http.exceptionHandling(Customizer.withDefaults());
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 // 开启OpenID Connect 1.0协议相关端点
                 .oidc(Customizer.withDefaults())
@@ -135,24 +139,14 @@ public class AuthorizationConfig {
                         ))
                 ));
         // 添加验证码校验过滤器
-        http.addFilterBefore(new CaptchaFilter("/oauth2/token"), UsernamePasswordAuthenticationFilter.class);
-        // 设置自定义用户确认授权页
-        // .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
+        //http.addFilterBefore(new CaptchaFilter("/oauth2/token"), UsernamePasswordAuthenticationFilter.class);
         DefaultSecurityFilterChain securityFilterChain = http
                 .cors().configurationSource(corsConfigurationSource()).and()
                 .requestMatcher(http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).getEndpointsMatcher())
-                // 当未登录时访问认证端点时重定向至login页面
-                .exceptionHandling((exceptions) -> exceptions
-                        .defaultAuthenticationEntryPointFor(
-                                new LoginUrlAuthenticationEntryPoint("/login"),
-                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-                        )
-                )
-                // 处理使用access token访问用户信息端点和客户端注册端点
-//                .oauth2ResourceServer((resourceServer) -> resourceServer
-//                        .jwt(Customizer.withDefaults()))
+                // 认证失败处理
+                .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint)
+                .and()
                 .build();
-        // 密码模式 provider
         addPasswordAuthenticationProvider(http);
         return securityFilterChain;
     }
@@ -166,22 +160,23 @@ public class AuthorizationConfig {
      */
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
                 // 放行静态资源
-                .antMatchers("/v3/api-docs/**", "/assets/**", "/webjars/**", "/oauth2/**", "/login").permitAll()
+                .antMatchers("/v3/api-docs/**", "/assets/**", "/webjars/**", "/oauth2/**", "/login" , "/logout").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()
+                .logout().disable()
                 //.cors().disable()
                 .csrf().disable()
-                .oauth2Login().userInfoEndpoint().userService(customOAuth2UserService)
-                .and().successHandler(customAuthenticationSuccessHandler)
-                .and().exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
-                //.failureHandler(new SimpleUrlAuthenticationFailureHandler("/login?error"));
+                .oauth2Login()
+                .userInfoEndpoint().userService(customOAuth2UserService)
+                .and()
+                .successHandler(customAuthenticationSuccessHandler)
+                ;
 
-        /*// 添加BearerTokenAuthenticationFilter，将认证服务当做一个资源服务，解析请求头中的token
-        http.oauth2ResourceServer((resourceServer) -> resourceServer
-                .jwt(Customizer.withDefaults()));*/
+
         return http.build();
     }
 
@@ -194,6 +189,7 @@ public class AuthorizationConfig {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(sysBaseUserService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder());
+        provider.setHideUserNotFoundExceptions(false);
         return provider;
     }
 
@@ -355,21 +351,10 @@ public class AuthorizationConfig {
     public AuthorizationServerSettings authorizationServerSettings() {
 
         return AuthorizationServerSettings.builder()
+                // 设置token签发者 统一jwt中的iss
+                .issuer(SecurityConstants.AUTHORIZATION_SERVER)
                 .build();
     }
-
-
-
-/*    @Bean
-    public UserDetailsService users(PasswordEncoder passwordEncoder) {
-
-        UserDetails user = User.withUsername("admin")
-                .password(passwordEncoder.encode("123456"))
-                .roles("admin", "normal", "unAuthentication")
-                .authorities("app", "web", "/test2", "/test3")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }*/
 
     private void addPasswordAuthenticationProvider(HttpSecurity http) {
         AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
@@ -392,9 +377,25 @@ public class AuthorizationConfig {
                 SysBaseUser user = (SysBaseUser) context.getPrincipal().getPrincipal();
                 JwtClaimsSet.Builder claims = context.getClaims();
                 claims.claim("roles", user.getUserRoleNames());
+                claims.claim("displayName", user.getName());
+                if (user.getAvatarUrl() != null) {
+                    claims.claim("avatarUrl", user.getAvatarUrl());
+                }
+                // 生成唯一的 jti
+                String jti = UUID.randomUUID().toString();
+                claims.claim("jti", jti);
+                Map<String, Object> claimsMap = new HashMap<>(claims.build().getClaims());
+                claimsMap.remove("scope");
+                claims.claims(existingClaims -> {
+                    existingClaims.clear();
+                    existingClaims.putAll(claimsMap);
+                });
             }
         };
     }
+
+
+
 
 }
 

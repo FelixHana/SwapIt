@@ -72,12 +72,6 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
 
-        <!--caffeine-->
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-        </dependency>
-
         <!--json处理-->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
