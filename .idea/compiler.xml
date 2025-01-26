@@ -13,19 +13,31 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$PROJECT_DIR$/../../../../dev/apache-maven-3.9.5/maven_repo/org/lombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="$PROJECT_DIR$/../../dev/apache-maven-3.9.5/maven_repo/org/lombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="$PROJECT_DIR$/../../dev/apache-maven-3.9.5/maven_repo/org/lombok/lombok/1.18.24/lombok-1.18.24.jar" />
         </processorPath>
+        <module name="comment-api" />
+        <module name="swap-captcha" />
+        <module name="swap-gateway" />
+        <module name="product-service" />
+        <module name="order-api" />
         <module name="authorization-user" />
-        <module name="cs-gateway" />
+        <module name="comment-model" />
+        <module name="comment-service" />
         <module name="authorization-server" />
         <module name="product-api" />
-        <module name="product-service" />
-        <module name="campus-swap-captcha" />
         <module name="order-service" />
-        <module name="order-api" />
-        <module name="cs-common" />
         <module name="order-model" />
         <module name="product-model" />
+      </profile>
+      <profile name="Annotation profile for swap-common" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../dev/apache-maven-3.9.5/maven_repo/org/lombok/lombok/1.18.24/lombok-1.18.24.jar" />
+        </processorPath>
+        <module name="swap-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11">
@@ -36,11 +48,11 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="campus-swap-auth" options="" />
-      <module name="cs-common" options="" />
-      <module name="cs-gateway" options="" />
       <module name="cs-service" options="" />
       <module name="place-jwt" options="" />
+      <module name="swap-auth" options="" />
+      <module name="swap-common" options="" />
+      <module name="swap-gateway" options="" />
     </option>
   </component>
 </project>

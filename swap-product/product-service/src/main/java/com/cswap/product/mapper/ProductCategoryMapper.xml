@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cswap.product.mapper.ProductCategoryMapper">
+    <update id="updateCategoryName">
+        UPDATE product_category
+        SET category_name = #{categoryName}
+        WHERE category_id = #{categoryId}
+    </update>
+
+
+    <select id="selectTreeNodes" resultType="com.cswap.product.model.dto.ProductCategoryTreeDto">
+        with recursive t1 as (select *
+                              from product_category
+                              where category_id = #{categoryId}
+                              union all
+                              select t.*
+                              from product_category t
+                                       inner join t1 on t1.category_id = t.parent_id)
+        select *
+        from t1
+        order by t1.sort
+    </select>
+
+</mapper>

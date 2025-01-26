@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cswap.product.mapper.ProductImagesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cswap.product.model.po.ProductImages">
+        <id column="id" property="id" />
+        <result column="product_id" property="productId" />
+        <result column="url" property="url" />
+        <result column="sort" property="sort" />
+        <result column="default_image" property="defaultImage" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+    <insert id="saveImagesList">
+        INSERT INTO product_images(product_id, url, default_image)
+        VALUES
+            <foreach collection="imageList" item="image" separator=",">
+                (#{image.productId},
+                #{image.url},
+                #{image.defaultImage})
+            </foreach>
+    </insert>
+
+
+
+
+</mapper>

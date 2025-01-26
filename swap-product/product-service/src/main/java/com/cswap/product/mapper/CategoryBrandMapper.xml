@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cswap.product.mapper.CategoryBrandMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cswap.product.model.po.CategoryBrand">
+        <id column="id" property="id" />
+        <result column="brand_id" property="brandId" />
+        <result column="category_id" property="categoryId" />
+        <result column="brand_name" property="brandName" />
+        <result column="category_name" property="categoryName" />
+    </resultMap>
+    <update id="updateByBrandId">
+        UPDATE category_brand SET brand_name = #{brandName} WHERE brand_id = #{brandId}
+    </update>
+    <update id="updateByCategoryId">
+        UPDATE category_brand SET category_name = #{categoryName} WHERE category_id = #{categoryId}
+
+    </update>
+
+</mapper>

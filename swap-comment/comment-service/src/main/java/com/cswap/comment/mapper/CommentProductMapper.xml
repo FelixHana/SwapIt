@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cswap.comment.mapper.CommentProductMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cswap.comment.model.po.CommentProduct">
+        <id column="comment_id" property="commentId" />
+        <result column="type" property="type" />
+        <result column="content" property="content" />
+        <result column="product_id" property="productId" />
+        <result column="parent_id" property="parentId" />
+        <result column="target_user_id" property="targetUserId" />
+        <result column="user_id" property="userId" />
+        <result column="likes" property="likes" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+    <select id="selectListByProductId" resultType="com.cswap.comment.model.po.CommentProduct">
+        select * from comment_product where product_id = #{productId}
+        order by create_time desc
+    </select>
+
+</mapper>

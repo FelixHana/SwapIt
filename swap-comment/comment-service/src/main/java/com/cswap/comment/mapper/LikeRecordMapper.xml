@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cswap.comment.mapper.LikeRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cswap.comment.model.po.Like">
+        <id column="like_id" property="likeId" />
+        <result column="user_id" property="userId" />
+        <result column="entity_type" property="entityType" />
+        <result column="entity_id" property="entityId" />
+        <result column="like_status" property="likeStatus" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+    <insert id="toggleLike" parameterType="com.cswap.comment.model.po.Like">
+        insert into like_record(user_id, entity_type, entity_id, like_status, create_time, update_time)
+        values(#{userId}, #{entityType}, #{entityId}, 1, now(), now())
+        on duplicate key update like_status = if(like_status = 1, 0, 1)
+    </insert>
+    <select id="selectListByUserIdAndProductId" resultType="java.lang.Long">
+        select entity_id
+        from like_record
+        where user_id = #{userId} and entity_type = 2 and like_status = 1 and entity_id in
+        <foreach item="item" index="index" collection="commentIdList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </select>
+
+
+</mapper>

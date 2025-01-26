@@ -5,16 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <name>CampusSwap</name>
     <groupId>com.cswap</groupId>
-    <artifactId>CampusSwap</artifactId>
+    <artifactId>SwapIt</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-        <module>cs-common</module>
-        <module>cs-gateway</module>
-        <module>campus-swap-auth</module>
-        <module>campus-swap-product</module>
-        <module>campus-swap-order</module>
-        <module>campus-swap-captcha</module>
+        <module>swap-common</module>
+        <module>swap-gateway</module>
+        <module>swap-auth</module>
+        <module>swap-product</module>
+        <module>swap-order</module>
+        <module>swap-captcha</module>
+        <module>swap-comment</module>
 
 
     </modules>
@@ -121,6 +122,11 @@
                         <artifactId>spring-boot-starter-logging</artifactId>
                     </exclusion>
                 </exclusions>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
         </dependencies>
